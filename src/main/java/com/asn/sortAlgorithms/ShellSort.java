@@ -1,5 +1,8 @@
 package com.asn.sortAlgorithms;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @Author: wangsen
  * @Date: 2020/9/22 12:24
@@ -7,7 +10,8 @@ package com.asn.sortAlgorithms;
  **/
 public class ShellSort {
     public static void main(String[] args) {
-
+        Set s = new HashSet();
+        s.size();
     }
     public static void shellSort(int[] arr){
         int gap = arr.length / 2;

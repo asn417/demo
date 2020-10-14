@@ -4,37 +4,30 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Test {
     public static void main(String[] args) throws ParseException {
-        B b = (a1,b1) -> a1+b1;
-        System.out.println(b.add(1,2));
+        List<String> list = new ArrayList<>();
+        list.add("asd");
+        list.add("ss");
+        list.add("dd");
+        list.add("bb");
 
-        String[] arr = {"a","b","c"};
+        List<String> collect = list.stream().sorted((a, b) -> {
+            return a.compareTo(b);
+        }).collect(Collectors.toList());
 
-        try{
-            System.out.println(new BigDecimal("50%").toString());
-        }catch (Exception e){
-            System.out.println("1");
+
+        for (String i :
+                list) {
+            System.out.print(i);
         }
-
-        System.out.println("01".equals("1"));
-        System.out.println("01".compareTo("1"));
-        System.out.println(new BigDecimal("01"));
-
-        Map<String,Object> map = new HashMap<>();
-        map.put("str",null);
-        String str = (String)null;
-        System.out.println(str);
-        if (str == null){
-            System.out.println("........");
+        System.out.println();
+        for (String i :
+                collect) {
+            System.out.print(i);
         }
-        Arrays.asList(str.split(","));
-        System.out.println(str);
-
-        Integer i = new Integer(1);
-        String s = new String("1");
-        Long l = new Long(1);
     }
 
 
