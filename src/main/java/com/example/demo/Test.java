@@ -1,35 +1,23 @@
 package com.example.demo;
 
-import java.math.BigDecimal;
+import com.asn.se.Food;
+
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class Test {
     public static void main(String[] args) throws ParseException {
-        List<String> list = new ArrayList<>();
-        list.add("asd");
-        list.add("ss");
-        list.add("dd");
-        list.add("bb");
-
-        List<String> collect = list.stream().sorted((a, b) -> {
-            return a.compareTo(b);
-        }).collect(Collectors.toList());
-
-
-        for (String i :
-                list) {
-            System.out.print(i);
-        }
-        System.out.println();
-        for (String i :
-                collect) {
-            System.out.print(i);
-        }
+        Food blackCoffee = Food.Coffee.BLACK_COFFEE;
+        System.out.println(blackCoffee);
+        System.out.println(blackCoffee.toString());
+        System.out.println(Food.Coffee.BLACK_COFFEE.name());
+        blackCoffee = Food.Dessert.FRUIT;
+        System.out.println(blackCoffee);
+        System.out.println(blackCoffee.toString());
     }
 
+    class A extends Test {
+
+    }
 
 }
 class A{
