@@ -2,10 +2,7 @@ package com.asn.se.threadPool;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.*;
 
 /**
  * @Author: wangsen
@@ -14,26 +11,26 @@ import java.util.concurrent.ScheduledExecutorService;
  **/
 public class TheadPoolTest {
 
-    public static void main(String[] args) {
-        /*ExecutorService executorService = Executors.newFixedThreadPool(5);
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
         ExecutorService executorService1 = Executors.newCachedThreadPool();
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
+        long start = System.currentTimeMillis();
+        Future<String> a = executorService.submit(() -> {
+            Thread.sleep(5000);
+            return "a thread";
+        });
+        //get是个阻塞方法，因此应该把所有线程的get方法统一放到最后一个线程的后面，否则就成串行了。
+        System.out.println("get=" + a.get());
+        //下面的这个线程会等上面的get返回值之后再提交
+        Future<String> b = executorService.submit(() -> {
+            Thread.sleep(5000);
+            return "b thread";
+        });
 
-        MyThread myThread = new MyThread();
-        executorService.execute(new MyThread());
-        executorService.submit(new Thread(myThread));
-        executorService.execute(myThread);
-
-        executorService1.execute(new MyThread2());
-        executorService.submit(new MyThread3());
-        executorService.shutdown();*/
-
-
-        BigDecimal bigDecimal = BigDecimal.ZERO;
-        BigDecimal bigDecimal1 = new BigDecimal(BigInteger.valueOf(0), BigDecimal.ROUND_HALF_UP);
-        System.out.println(bigDecimal1==bigDecimal);
-        System.out.println(bigDecimal1.compareTo(bigDecimal));
-        System.out.println(new BigDecimal(""));
+        System.out.println("get=" + b.get());
+        long end = System.currentTimeMillis();
+        System.out.println("=================耗时：" + (end - start));
     }
 }
 
