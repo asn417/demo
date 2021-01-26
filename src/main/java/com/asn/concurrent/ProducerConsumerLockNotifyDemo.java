@@ -92,7 +92,7 @@ class ProductBuffer {
     private static final int DEFAULTSIZE = 10;
     private int index;
     //开启5个子线程并行消费
-    private static final ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 5, 0, TimeUnit.MICROSECONDS, new LinkedBlockingQueue<Runnable>(5));
+    private static final ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 5, 0, TimeUnit.MICROSECONDS, new LinkedBlockingQueue<Runnable>(10));
     private static final Object customer = new Object();
     public ProductBuffer() {
         this(DEFAULTSIZE);
