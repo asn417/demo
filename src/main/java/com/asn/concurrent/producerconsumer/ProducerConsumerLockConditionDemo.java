@@ -9,6 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @Author: wangsen
  * @Date: 2021/1/26 15:08
  * @Description: 使用 lock 和 condition 实现生产者消费者模型
+ *      signalAll会唤醒对应condition下所有wait的线程，而signal之后挑选一个唤醒。
  **/
 public class ProducerConsumerLockConditionDemo {
 
@@ -17,7 +18,6 @@ public class ProducerConsumerLockConditionDemo {
         new Thread(new Producer(buffer)).start();
         new Thread(new ConsumerWithSub(buffer)).start();
     }
-
 }
 
 //产品缓冲区对象
@@ -53,7 +53,7 @@ class ProductBuffer1 implements ProductBufferInterface {
             }
             buffer[index++] = product;
             System.out.println("生产者线程：" + Thread.currentThread().getId() + " 生产第 " + index + " 个产品");
-            getCondition.signal();
+            getCondition.signalAll();
         } finally {
             lock.unlock();
         }
@@ -131,12 +131,11 @@ class ProductBuffer1 implements ProductBufferInterface {
                 e.printStackTrace();
             }
             System.out.println("消费者线程：" + Thread.currentThread().getId() + " 消费第 " + index + " 个产品");
-            putCondition.signal();
+            putCondition.signalAll();
             return s1 + s2 + s3 + s4 + s5 + ",消费第 " + (index--) + " 个产品";
         } finally {
             lock.unlock();
         }
-
     }
 }
 
