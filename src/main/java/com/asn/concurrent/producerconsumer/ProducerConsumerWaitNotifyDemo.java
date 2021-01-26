@@ -1,4 +1,4 @@
-package com.asn.concurrent;
+package com.asn.concurrent.producerconsumer;
 
 import java.util.concurrent.*;
 
@@ -15,19 +15,19 @@ import java.util.concurrent.*;
  * 3) synchronized(xxx.class)：同1类似，锁住的是一个类class对象，但此时使用notify、wait等时，需要在前面加上xxx.class来显式指定调用的是对象监视器的notify和wait方法。否则会
  * 报 IllegalMonitorStateException 异常（如果当前线程不是对象监视器的所有者）。
  **/
-public class ProducerConsumerLockNotifyDemo {
+public class ProducerConsumerWaitNotifyDemo {
     public static void main(String[] args) {
-        ProductBuffer buffer = new ProductBuffer();
+        ProductBufferInterface buffer = new ProductBuffer();
         new Thread(new Producer(buffer)).start();
         new Thread(new Consumer(buffer)).start();
     }
 }
 
 //生产者线程
-class Producer implements Runnable {
-    private ProductBuffer buffer;
+class Producer implements ProducerInterface, Runnable {
+    private ProductBufferInterface buffer;
 
-    public Producer(ProductBuffer buffer) {
+    public Producer(ProductBufferInterface buffer) {
         this.buffer = buffer;
     }
 
@@ -41,10 +41,10 @@ class Producer implements Runnable {
 }
 
 //消费者线程
-class Consumer implements Runnable {
-    private ProductBuffer buffer;
+class Consumer implements ConsumerInterface, Runnable {
+    private ProductBufferInterface buffer;
 
-    public Consumer(ProductBuffer buffer) {
+    public Consumer(ProductBufferInterface buffer) {
         this.buffer = buffer;
     }
 
@@ -58,42 +58,28 @@ class Consumer implements Runnable {
 
 //带子消费者线程的消费者线程
 class ConsumerWithSub implements Runnable {
-    private ProductBuffer buffer;
+    private ProductBufferInterface buffer;
 
-    public ConsumerWithSub(ProductBuffer buffer) {
+    public ConsumerWithSub(ProductBufferInterface buffer) {
         this.buffer = buffer;
     }
 
     @Override
     public void run() {
         while (true) {
-            try {
-                String res = buffer.getWithSubThread();
-                System.out.println(res);
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            String res = buffer.getWithSubThread();
+            System.out.println(res);
         }
     }
 }
 
-class SubConsumer implements Callable<Product> {
-
-    @Override
-    public Product call() throws Exception {
-        return null;
-    }
-}
 //产品缓冲区对象
-class ProductBuffer {
+class ProductBuffer implements ProductBufferInterface {
     private final Product[] buffer;
     private static final int DEFAULTSIZE = 10;
     private int index;
     //开启5个子线程并行消费
     private static final ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 5, 0, TimeUnit.MICROSECONDS, new LinkedBlockingQueue<Runnable>(10));
-    private static final Object customer = new Object();
     public ProductBuffer() {
         this(DEFAULTSIZE);
     }
@@ -135,7 +121,7 @@ class ProductBuffer {
     }
 
     //开启多个子线程消费后合并数据
-    public String getWithSubThread() throws ExecutionException, InterruptedException {
+    public String getWithSubThread() {
         synchronized (ProductBuffer.class) {
             while (index == 0) {
                 try {
@@ -167,11 +153,22 @@ class ProductBuffer {
                 return String.valueOf(Thread.currentThread().getId());
             });
 
-            String s1 = subTask1.get();
-            String s2 = subTask2.get();
-            String s3 = subTask3.get();
-            String s4 = subTask4.get();
-            String s5 = subTask5.get();
+            String s1 = null;
+            String s2 = null;
+            String s3 = null;
+            String s4 = null;
+            String s5 = null;
+            try {
+                s1 = subTask1.get();
+                s2 = subTask2.get();
+                s3 = subTask3.get();
+                s4 = subTask4.get();
+                s5 = subTask5.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
             System.out.println("消费者线程：" + Thread.currentThread().getId() + " 消费第 " + index + " 个产品");
             ProductBuffer.class.notify();
             return s1 + s2 + s3 + s4 + s5 + ",消费第 " + (index--) + " 个产品";
