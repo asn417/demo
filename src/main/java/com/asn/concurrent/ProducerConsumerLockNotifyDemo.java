@@ -49,7 +49,7 @@ class Consumer implements Runnable {
     @Override
     public void run() {
         while (true) {
-            Product product = buffer.take();
+            Product product = buffer.get();
         }
     }
 }
@@ -59,7 +59,7 @@ class ProductBuffer {
     private final Product[] buffer;
     private static final int DEFAULTSIZE = 10;
     private int index;
-
+    private static final Object customer = new Object();
     public ProductBuffer() {
         this(DEFAULTSIZE);
     }
@@ -85,7 +85,7 @@ class ProductBuffer {
     }
 
     //消费产品
-    public Product take() {
+    public Product get() {
         synchronized (ProductBuffer.class) {
             while (index == 0) {
                 try {
