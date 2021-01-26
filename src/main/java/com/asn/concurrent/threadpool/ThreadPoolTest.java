@@ -17,7 +17,11 @@ import java.util.concurrent.*;
  **/
 public class ThreadPoolTest {
     public static void main(String[] args) {
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 5, 0, TimeUnit.MICROSECONDS, new ArrayBlockingQueue<>(10));
+
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(5);
+
+        //workQueue的大小最好设置的足够大，否则可能会抛异常 RejectedExecutionException
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 5, 0, TimeUnit.MICROSECONDS, new LinkedBlockingQueue<Runnable>(10));
         executor.allowCoreThreadTimeOut(true);
         Future<?> future = executor.submit(() -> {
             System.out.println("11111");

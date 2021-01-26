@@ -68,7 +68,7 @@ class ConsumerWithSub implements Runnable {
     public void run() {
         while (true) {
             String res = buffer.getWithSubThread();
-            System.out.println(res);
+            System.out.println(Thread.currentThread().getName() + "---" + res);
         }
     }
 }

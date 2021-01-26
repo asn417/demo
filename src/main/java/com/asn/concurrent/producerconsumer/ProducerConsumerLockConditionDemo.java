@@ -16,7 +16,7 @@ public class ProducerConsumerLockConditionDemo {
     public static void main(String[] args) {
         ProductBufferInterface buffer = new ProductBuffer1();
         new Thread(new Producer(buffer)).start();
-        new Thread(new ConsumerWithSub(buffer)).start();
+        new Thread(new ConsumerWithSub(buffer), "thread1").start();
     }
 }
 
@@ -26,7 +26,7 @@ class ProductBuffer1 implements ProductBufferInterface {
     private static final int DEFAULTSIZE = 10;
     private int index;
     //开启5个子线程并行消费
-    private static final ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 5, 0, TimeUnit.MICROSECONDS, new LinkedBlockingQueue<Runnable>(20));
+    private static final ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 5, 0, TimeUnit.MICROSECONDS, new LinkedBlockingQueue<Runnable>(5));
 
     private final Lock lock = new ReentrantLock();
     private Condition putCondition = lock.newCondition();
