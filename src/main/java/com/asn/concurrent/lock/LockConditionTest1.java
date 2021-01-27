@@ -1,4 +1,4 @@
-package com.asn.concurrent;
+package com.asn.concurrent.lock;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
