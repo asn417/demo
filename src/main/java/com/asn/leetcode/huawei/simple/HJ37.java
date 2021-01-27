@@ -18,6 +18,9 @@ package com.asn.leetcode.huawei.simple;
  * 输入：3，输出：2
  * 输入：4:，输出：3
  * 输入：5，输出：5
+ *
+ * 分析：这是一个典型的斐波那契数列问题，当月的兔子数=老兔子+新兔子，这里的老兔子就是上个月所有兔子，而新兔子就是上上个月的所有兔子(到这个月有了生育能力)，
+ * 即f(n)=f(n-1)+f(n-2)或者我们直接根据每月兔子数量也能得出这个结论：1 1 2 3 5 8...
  **/
 public class HJ37 {
     public static void main(String[] args) {
