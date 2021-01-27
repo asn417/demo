@@ -13,13 +13,37 @@ package com.asn.leetcode.huawei.simple;
  * <p>
  * 输出描述:
  * 输出兔子总数int型
+ *
+ * 示例：
+ * 输入：3，输出：2
+ * 输入：4:，输出：3
+ * 输入：5，输出：5
  **/
 public class HJ37 {
     public static void main(String[] args) {
-
+        System.out.println(getNum(5));
+        System.out.println(getNum(5));
     }
 
     public static int getNum(int month) {
-
+        assert (month >= 1);
+        if (month == 1 || month == 2)
+            return 1;
+        return getNum(month - 1) + getNum(month - 2);
     }
+
+    public static int getNum2(int month) {
+        assert (month >= 1);
+        int first = 1;
+        int second = 1;
+        int month_count = 1;//当前月兔子数
+        while (month > 2) {
+            month_count = first + second;
+            first = second;
+            second = month_count;
+            month--;
+        }
+        return month_count;
+    }
+
 }
