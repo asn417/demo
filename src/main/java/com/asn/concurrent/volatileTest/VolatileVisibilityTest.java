@@ -1,4 +1,4 @@
-package com.asn.concurrent;
+package com.asn.concurrent.volatileTest;
 
 import java.util.concurrent.TimeUnit;
 
