@@ -6,5 +6,5 @@ package com.asn.se;
  * @Description:
  **/
 public enum EnumTest {
-
+    INSTANCE;//单例
 }
