@@ -1,4 +1,4 @@
-package com.asn.algorithms;
+package com.asn.leetcode;
 
 /**
  * @Author: wangsen

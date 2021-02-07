@@ -1,4 +1,4 @@
-package com.asn.leetcode;
+package com.asn.leetcode.simple;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -7,7 +7,14 @@ import java.util.Queue;
 /**
  * @Author: wangsen
  * @Date: 2021/2/4 12:28
- * @Description:
+ * @Description: 子数组最大平均数
+ * 给定 n 个整数，找出平均数最大且长度为 k 的连续子数组，并输出该最大平均数。
+ *
+ * 示例：
+ *
+ * 输入：[1,12,-5,-6,50,3], k = 4
+ * 输出：12.75
+ * 解释：最大平均数 (12-5-6+50)/4 = 51/4 = 12.75
  **/
 public class FindMaxAverage643 {
     public static void main(String[] args) {
