@@ -18,4 +18,17 @@ public class IsPalindrome9 {
         }
         return j==x;
     }
+
+    //只翻转一般，解决超出int范围的问题
+    public static boolean isPalindrome1(int x) {
+        if(x<0){return false;}
+        if(x==0){return true;}
+        if (x%10==0 && x!=0){return false;}
+        int reversed = 0;
+        while (x>reversed){
+            reversed = reversed * 10 + x % 10;
+            x/=10;
+        }
+        return reversed==x || reversed/10==x;//翻转数和x的长度是奇数和偶数有关。如果是奇数，reversed需要除以10退一位。
+    }
 }
